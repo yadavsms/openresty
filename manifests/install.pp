@@ -1,11 +1,20 @@
 
 # == class: openresty::install
+
 class openresty::install inherits openresty {
 
-        $dependency = ['wget', 'libreadline-dev', 'libncurses5-dev', 'libpcre3-dev', 'libssl-dev', 'perl', 'make', 'build-essential']
+        $debian_pkg = ['wget', 'libreadline-dev', 'libncurses5-dev', 'libpcre3-dev', 'libssl-dev', 'perl', 'make', 'build-essential']
+        $redhat_pkg = ['wget', 'readline-devel', 'pcre-devel', 'openssl-devel', 'gcc']
 
-       package {$dependency: ensure => 'installed',
+       if $osfamily == 'Debian' {
+	  package { $debian_pkg: ensure => 'installed',
           before  => Exec['download ngx_openresty'],
+        }
+       }
+       if $osfamily == 'redhat' {
+	  package { $redhat_pkg: ensure => 'installed',
+	  before  => Exec['download ngx_openresty'],
+	}
        }
 
        exec { "download ngx_openresty":
