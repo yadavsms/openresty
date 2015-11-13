@@ -1,7 +1,5 @@
 
 # == class: openresty::install
-include openresty::params
-
 class openresty::install inherits openresty {
 
         $dependency = ['wget', 'libreadline-dev', 'libncurses5-dev', 'libpcre3-dev', 'libssl-dev', 'perl', 'make', 'build-essential']
